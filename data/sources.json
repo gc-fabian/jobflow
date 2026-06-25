@@ -59,6 +59,48 @@
       "url": "https://www.trabajando.cl/trabajo/tecnologia",
       "login_required": false,
       "priority": 3
+    },
+    {
+      "name": "GetOnBoard - Backend Chile",
+      "url": "https://www.getonbrd.com/empleos/programacion?query=backend",
+      "login_required": false,
+      "priority": 1
+    },
+    {
+      "name": "GetOnBoard - Fullstack Chile",
+      "url": "https://www.getonbrd.com/empleos/programacion?query=fullstack",
+      "login_required": false,
+      "priority": 1
+    },
+    {
+      "name": "GetOnBoard - IA / AI Chile",
+      "url": "https://www.getonbrd.com/empleos/programacion?query=AI",
+      "login_required": false,
+      "priority": 1
+    },
+    {
+      "name": "GetOnBoard - Python Chile",
+      "url": "https://www.getonbrd.com/empleos/programacion?query=python",
+      "login_required": false,
+      "priority": 2
+    },
+    {
+      "name": "GetOnBoard - Node.js Chile",
+      "url": "https://www.getonbrd.com/empleos/programacion?query=node",
+      "login_required": false,
+      "priority": 2
+    },
+    {
+      "name": "Remotive - Software Development Remote",
+      "url": "https://remotive.com/remote-jobs/software-dev",
+      "login_required": false,
+      "priority": 3
+    },
+    {
+      "name": "We Work Remotely - Programming",
+      "url": "https://weworkremotely.com/categories/remote-programming-jobs",
+      "login_required": false,
+      "priority": 3
     }
   ],
   "target_companies": [
@@ -393,5 +435,6 @@
       "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Get%20on%20Board",
       "login_required": false
     }
-  ]
+  ],
+  "search_strategy_note": "Buscar no es solo abrir LinkedIn: se combinan portales públicos, búsquedas por rol, búsquedas por empresa objetivo y revisión manual de portales con login. El dashboard debug muestra por qué una fuente entra, se omite o no entrega ofertas."
 }

@@ -105,7 +105,34 @@ export default async function handler(req, res) {
     added: 0,
     updated: 0,
     ignored_listing_pages: 0,
-    errors: ['Despliegue Vercel en modo seguro/demo: el escaneo real corre localmente para no guardar credenciales ni datos personales en la nube.']
+    errors: ['Despliegue Vercel en modo seguro/demo: el escaneo real corre localmente para no guardar credenciales ni datos personales en la nube.'],
+    events: [{ status: 'info', stage: 'vercel-demo', message: 'El debug completo de scraping corre en local para no mover datos privados a Vercel.' }],
+    search_plan: {
+      how_it_searches: ['Modo demo protegido en Vercel.', 'El scanner real se ejecuta localmente.'],
+      why_not_everything_appears: ['No se ejecuta scraping real en producción demo para evitar credenciales/datos personales.'],
+      configured_sources: 0,
+      login_required_sources: 0,
+      public_sources: 0,
+      target_companies: []
+    }
+  });
+  if (route === '/api/debug') return sendJson(res, {
+    search_plan: {
+      how_it_searches: ['Modo demo protegido en Vercel.', 'El scanner real se ejecuta localmente.'],
+      why_not_everything_appears: ['No se ejecuta scraping real en producción demo para evitar credenciales/datos personales.'],
+      configured_sources: 0,
+      login_required_sources: 0,
+      public_sources: 0,
+      target_companies: []
+    },
+    last_scan: {
+      events: [{ status: 'info', stage: 'vercel-demo', message: 'El debug completo está disponible en el dashboard local.' }]
+    },
+    sources: getSources(),
+    job_count: getJobs().length,
+    status_counts: getJobs().reduce((acc, job) => ({ ...acc, [job.status]: (acc[job.status] || 0) + 1 }), {}),
+    channel_counts: getJobs().reduce((acc, job) => ({ ...acc, [job.channel]: (acc[job.channel] || 0) + 1 }), {}),
+    top_jobs: getJobs().slice(0, 10)
   });
   if (route === '/api/score') return sendJson(res, { ok: true, count: getJobs().length });
   if (route === '/api/status' && req.method === 'POST') {

@@ -24,10 +24,10 @@ ROLE_HINTS = (
     "desarrollador", "ingeniero", "programador",
 )
 JOB_URL_HINTS = (
-    "/jobs/", "/empleos/programacion/", "/trabajo/", "/postula/", "greenhouse.io", "lever.co",
+    "/jobs/", "/empleos/programacion/", "/trabajo/", "/postula/", "/remote-jobs/", "greenhouse.io", "lever.co",
 )
 LISTING_URL_HINTS = (
-    "linkedin.com/jobs/search", "/empleos/programacion", "/trabajo/tecnologia", "trabajando.cl/trabajo/",
+    "linkedin.com/jobs/search", "/empleos/programacion", "/trabajo/tecnologia", "trabajando.cl/trabajo/", "remote-programming-jobs", "remote-jobs/software-dev",
 )
 
 
@@ -39,11 +39,44 @@ class ScanResult:
     updated: int = 0
     ignored_listing_pages: int = 0
     errors: list[str] | None = None
+    events: list[dict] | None = None
 
     def to_dict(self) -> dict:
         data = asdict(self)
         data["errors"] = data["errors"] or []
+        data["events"] = data["events"] or []
         return data
+
+
+def _event(result: ScanResult, status: str, stage: str, message: str, **data) -> None:
+    """Append a human-readable trace entry for the dashboard debug view."""
+    if result.events is None:
+        result.events = []
+    result.events.append({"status": status, "stage": stage, "message": message, **data})
+
+
+def _search_plan(sources: dict) -> dict:
+    searches = sources.get("searches", [])
+    companies = sources.get("target_companies", [])
+    return {
+        "how_it_searches": [
+            "1) Lee data/sources.json: búsquedas públicas, portales y empresas objetivo.",
+            "2) Omite fuentes con login_required=true para no guardar claves ni romper términos de terceros.",
+            "3) Descarga HTML público, busca JSON-LD JobPosting y links que parezcan ofertas reales.",
+            "4) Filtra por keywords del perfil, roles preferidos y empresas objetivo.",
+            "5) Deduplica por URL normalizada, puntúa cada oferta y guarda razones/riesgos.",
+        ],
+        "why_not_everything_appears": [
+            "LinkedIn y algunos ATS ocultan datos si no hay sesión; se dejan como búsqueda manual.",
+            "Páginas índice/listados genéricos no se guardan como oferta para no contaminar recomendaciones.",
+            "Si una oferta no contiene keywords del perfil o parece senior/lead, puede quedar con score bajo o ser omitida.",
+            "Algunos portales bloquean bots o entregan HTML incompleto; el debug muestra el motivo.",
+        ],
+        "configured_sources": len(searches),
+        "login_required_sources": sum(1 for s in searches if s.get("login_required")),
+        "public_sources": sum(1 for s in searches if not s.get("login_required")),
+        "target_companies": companies,
+    }
 
 
 class LinkExtractor(HTMLParser):
@@ -204,6 +237,7 @@ def _job_from_page(job_id: int, url: str, source_name: str, title: str, html: st
     title_company = _company_from_role_title(role)
     if title_company:
         company = title_company
+    if posting:
         location_data = posting.get("jobLocation")
         if isinstance(location_data, dict):
             address = location_data.get("address") or {}
@@ -231,55 +265,101 @@ def run_scan(limit_per_source: int = 8, include_login_required: bool = False) ->
     jobs = load_jobs()
     by_url = _existing_by_url(jobs)
     now = datetime.now(timezone.utc).isoformat()
-    result = ScanResult(errors=[])
+    result = ScanResult(errors=[], events=[])
+
+    _event(result, "info", "plan", "Plan de búsqueda cargado", **_search_plan(sources))
 
     for source in sources.get("searches", []):
         name = source.get("name", "fuente")
         url = source.get("url", "")
         if not url:
+            _event(result, "skip", "source", "Fuente sin URL; se omite", source=name)
             continue
         if source.get("login_required") and not include_login_required:
             result.skipped_login += 1
+            _event(
+                result,
+                "skip",
+                "source",
+                "Omitida porque requiere login manual; se evita guardar credenciales o automatizar sesiones privadas.",
+                source=name,
+                url=url,
+            )
             continue
+
         result.scanned += 1
+        _event(result, "start", "fetch", "Descargando fuente pública", source=name, url=url)
         title, html, text = _fetch_html(url, timeout=15)
         if text.startswith("[NO SE PUDO EXTRAER"):
             result.errors.append(f"{name}: {text}")
+            _event(result, "error", "fetch", "No se pudo extraer HTML/texto de la fuente", source=name, url=url, error=text)
             continue
+        _event(
+            result,
+            "ok",
+            "fetch",
+            "Fuente descargada; se revisa si es oferta directa o listado.",
+            source=name,
+            url=url,
+            title=title,
+            text_chars=len(text),
+            html_chars=len(html),
+        )
 
         listing_page = _is_listing_page(url, name)
         posting = _jobposting_from_jsonld(html)
-        if posting or (not listing_page and _is_relevant(" ".join([name, title, text[:3000]]), config, companies)):
+        relevant_source = _is_relevant(" ".join([name, title, text[:3000]]), config, companies)
+        if posting or (not listing_page and relevant_source):
             key = _normalize_url(url)
+            reason = "JSON-LD JobPosting detectado" if posting else "fuente no-listado con keywords/empresa relevante"
             if key in by_url:
                 by_url[key].last_seen_at = now
                 by_url[key].updated_at = now
                 by_url[key] = score_job(by_url[key], config)
                 result.updated += 1
+                _event(result, "update", "job", "Oferta directa existente actualizada", source=name, url=url, reason=reason, job_id=by_url[key].id)
             else:
                 job = _job_from_page(next_id(jobs), url, name, title, html, text, companies, now)
-                jobs.append(score_job(job, config))
-                by_url[key] = job
+                scored = score_job(job, config)
+                jobs.append(scored)
+                by_url[key] = scored
                 result.added += 1
+                _event(result, "add", "job", "Oferta directa agregada", source=name, url=url, reason=reason, job_id=scored.id, company=scored.company, role=scored.role, score=scored.score)
         elif listing_page:
             result.ignored_listing_pages += 1
+            _event(result, "info", "listing", "Página de listado detectada; no se guarda como oferta, se extraen links internos.", source=name, url=url)
+        else:
+            _event(result, "skip", "source", "Fuente pública descargada pero no parece oferta ni contiene suficientes keywords del perfil.", source=name, url=url, title=title)
 
         extractor = LinkExtractor(url)
         try:
             extractor.feed(html)
         except Exception as exc:
             result.errors.append(f"{name}: error leyendo links: {exc}")
+            _event(result, "error", "links", "Error leyendo links del HTML", source=name, url=url, error=str(exc))
             continue
+        _event(result, "info", "links", "Links encontrados en la fuente", source=name, total_links=len(extractor.links), limit_per_source=limit_per_source)
+
         added_from_source = 0
         seen_links: set[str] = set()
+        skipped_non_job = 0
+        skipped_not_relevant = 0
+        skipped_duplicate = 0
         for link, label in extractor.links:
             if added_from_source >= limit_per_source:
+                _event(result, "info", "limit", "Se alcanzó el límite por fuente para evitar ruido/spam.", source=name, limit_per_source=limit_per_source)
                 break
             key = _normalize_url(link)
-            if key in seen_links or not _is_job_url(link):
+            if key in seen_links:
+                skipped_duplicate += 1
+                continue
+            if not _is_job_url(link):
+                skipped_non_job += 1
                 continue
             seen_links.add(key)
             if not _is_relevant(label, config, companies):
+                skipped_not_relevant += 1
+                _event(result, "skip", "candidate", "Link parece oferta, pero el texto del link no calza con keywords/empresas objetivo.", source=name, url=link, label=label[:180])
                 continue
             if key in by_url:
                 by_url[key].last_seen_at = now
@@ -288,21 +368,31 @@ def run_scan(limit_per_source: int = 8, include_login_required: bool = False) ->
                     by_url[key].company = _guess_company(name, label, companies)
                 by_url[key] = score_job(by_url[key], config)
                 result.updated += 1
+                _event(result, "update", "candidate", "Oferta existente vista de nuevo y actualizada", source=name, url=link, label=label[:180], job_id=by_url[key].id, score=by_url[key].score)
                 continue
+            _event(result, "start", "detail", "Link candidato relevante; descargando detalle", source=name, url=link, label=label[:180])
             detail_title, detail_html, detail_text = _fetch_html(link, timeout=12)
+            if detail_text.startswith("[NO SE PUDO EXTRAER"):
+                _event(result, "error", "detail", "No se pudo abrir detalle de oferta", source=name, url=link, error=detail_text)
+                continue
             label_text = " ".join([label, detail_title, detail_text[:2000]])
             if not _is_relevant(label_text, config, companies):
+                skipped_not_relevant += 1
+                _event(result, "skip", "detail", "Detalle descargado, pero no conserva señales suficientes de calce.", source=name, url=link, title=detail_title, label=label[:180])
                 continue
             job = _job_from_page(next_id(jobs), link, name, detail_title or label, detail_html, detail_text or label, companies, now)
             if job.company == "[COMPLETAR EMPRESA]":
                 job.company = _guess_company(name, label, companies)
-            jobs.append(score_job(job, config))
-            by_url[key] = job
+            scored = score_job(job, config)
+            jobs.append(scored)
+            by_url[key] = scored
             result.added += 1
             added_from_source += 1
+            _event(result, "add", "candidate", "Oferta agregada desde link interno", source=name, url=link, label=label[:180], job_id=scored.id, company=scored.company, role=scored.role, score=scored.score, reasons=scored.reasons[:5], risks=scored.risks[:5])
+        _event(result, "info", "summary", "Resumen de links omitidos en esta fuente", source=name, skipped_non_job=skipped_non_job, skipped_duplicate=skipped_duplicate, skipped_not_relevant=skipped_not_relevant, added_from_source=added_from_source)
 
     save_jobs(jobs)
-    payload = {"scanned_at": now, **result.to_dict()}
+    payload = {"scanned_at": now, **result.to_dict(), "search_plan": _search_plan(sources)}
     LAST_SCAN_PATH.parent.mkdir(parents=True, exist_ok=True)
     LAST_SCAN_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return payload

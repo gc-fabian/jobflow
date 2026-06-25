@@ -11,7 +11,7 @@ from .storage import ROOT, load_jobs, save_jobs, load_config
 from .models import Job
 from .scoring import score_job
 from .package import create_package
-from .scanner import SOURCES_PATH, load_last_scan, run_scan
+from .scanner import SOURCES_PATH, load_last_scan, run_scan, _search_plan
 
 DATA = ROOT / "data"
 WEB = ROOT / "web"
@@ -69,6 +69,25 @@ class Handler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/scan":
             self._json(load_last_scan())
+            return
+        if parsed.path == "/api/debug":
+            sources = read_json(SOURCES, {"searches": [], "target_companies": [], "company_links": []})
+            jobs = load_jobs()
+            last_scan = load_last_scan()
+            status_counts = {}
+            channel_counts = {}
+            for job in jobs:
+                status_counts[job.status] = status_counts.get(job.status, 0) + 1
+                channel_counts[job.channel] = channel_counts.get(job.channel, 0) + 1
+            self._json({
+                "search_plan": _search_plan(sources),
+                "last_scan": last_scan,
+                "sources": sources,
+                "job_count": len(jobs),
+                "status_counts": status_counts,
+                "channel_counts": channel_counts,
+                "top_jobs": [j.to_dict() for j in sorted(jobs, key=lambda x: (x.status == "discarded", -x.score))[:10]],
+            })
             return
         if parsed.path.startswith("/exports/"):
             path = ROOT / parsed.path.lstrip("/")
