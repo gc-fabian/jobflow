@@ -1,0 +1,397 @@
+{
+  "searches": [
+    {
+      "name": "LinkedIn - Junior Software Engineer Chile",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Junior%20Software%20Engineer&location=Chile",
+      "login_required": true,
+      "priority": 1
+    },
+    {
+      "name": "LinkedIn - Backend Developer Junior Chile",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Backend%20Developer%20Junior&location=Chile",
+      "login_required": true,
+      "priority": 1
+    },
+    {
+      "name": "LinkedIn - Full Stack Developer Junior Chile",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Full%20Stack%20Developer%20Junior&location=Chile",
+      "login_required": true,
+      "priority": 1
+    },
+    {
+      "name": "LinkedIn - Product Engineer Junior Chile",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Product%20Engineer%20Junior&location=Chile",
+      "login_required": true,
+      "priority": 1
+    },
+    {
+      "name": "LinkedIn - AI Product Engineer Chile",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=AI%20Product%20Engineer&location=Chile",
+      "login_required": true,
+      "priority": 1
+    },
+    {
+      "name": "LinkedIn - Node.js Developer Chile",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Node.js%20Developer&location=Chile",
+      "login_required": true,
+      "priority": 2
+    },
+    {
+      "name": "LinkedIn - Python Developer Junior Chile",
+      "url": "https://www.linkedin.com/jobs/search/?keywords=Python%20Developer%20Junior&location=Chile",
+      "login_required": true,
+      "priority": 2
+    },
+    {
+      "name": "AIRA - Sercomed actual",
+      "url": "https://login.airavirtual.com/postula/sTukEeeW3s8leyn1Y80e",
+      "login_required": false,
+      "priority": 1
+    },
+    {
+      "name": "GetOnBoard - Software Chile",
+      "url": "https://www.getonbrd.com/empleos/programacion",
+      "login_required": false,
+      "priority": 1
+    },
+    {
+      "name": "Trabajando - Tecnología Chile",
+      "url": "https://www.trabajando.cl/trabajo/tecnologia",
+      "login_required": false,
+      "priority": 3
+    }
+  ],
+  "target_companies": [
+    "Global66",
+    "Buk",
+    "Fintoc",
+    "Xepelin",
+    "Fintual",
+    "AgendaPro",
+    "Talana",
+    "Bice Vida",
+    "BCI",
+    "Banco Falabella",
+    "Falabella",
+    "Mercado Libre",
+    "Cornershop",
+    "Uber",
+    "Cabify",
+    "Rappi",
+    "NotCo",
+    "Betterfly",
+    "Rankmi",
+    "Khipu",
+    "Buda.com",
+    "Cumplo",
+    "Vestuá",
+    "Keirón",
+    "Healthatom",
+    "Sercomed",
+    "Sodimac",
+    "Walmart Chile",
+    "Ripley",
+    "Entel",
+    "Movistar",
+    "TIVIT",
+    "Nisum",
+    "Acid Labs",
+    "2Brains",
+    "Imagemaker",
+    "Apiux",
+    "Seidor",
+    "WiTI",
+    "AIRA",
+    "Get on Board"
+  ],
+  "last_scan_note": "Auto-scan usa solo fuentes públicas configuradas; LinkedIn y portales con login se abren para revisión manual y texto copiado, sin claves guardadas.",
+  "company_links": [
+    {
+      "company": "Global66",
+      "careers_search": "https://www.google.com/search?q=Global66%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Global66",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Global66",
+      "login_required": false
+    },
+    {
+      "company": "Buk",
+      "careers_search": "https://www.google.com/search?q=Buk%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Buk",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Buk",
+      "login_required": false
+    },
+    {
+      "company": "Fintoc",
+      "careers_search": "https://www.google.com/search?q=Fintoc%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Fintoc",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Fintoc",
+      "login_required": false
+    },
+    {
+      "company": "Xepelin",
+      "careers_search": "https://www.google.com/search?q=Xepelin%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Xepelin",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Xepelin",
+      "login_required": false
+    },
+    {
+      "company": "Fintual",
+      "careers_search": "https://www.google.com/search?q=Fintual%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Fintual",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Fintual",
+      "login_required": false
+    },
+    {
+      "company": "AgendaPro",
+      "careers_search": "https://www.google.com/search?q=AgendaPro%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=AgendaPro",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=AgendaPro",
+      "login_required": false
+    },
+    {
+      "company": "Talana",
+      "careers_search": "https://www.google.com/search?q=Talana%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Talana",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Talana",
+      "login_required": false
+    },
+    {
+      "company": "Bice Vida",
+      "careers_search": "https://www.google.com/search?q=Bice%20Vida%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Bice%20Vida",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Bice%20Vida",
+      "login_required": false
+    },
+    {
+      "company": "BCI",
+      "careers_search": "https://www.google.com/search?q=BCI%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=BCI",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=BCI",
+      "login_required": false
+    },
+    {
+      "company": "Banco Falabella",
+      "careers_search": "https://www.google.com/search?q=Banco%20Falabella%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Banco%20Falabella",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Banco%20Falabella",
+      "login_required": false
+    },
+    {
+      "company": "Falabella",
+      "careers_search": "https://www.google.com/search?q=Falabella%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Falabella",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Falabella",
+      "login_required": false
+    },
+    {
+      "company": "Mercado Libre",
+      "careers_search": "https://www.google.com/search?q=Mercado%20Libre%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Mercado%20Libre",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Mercado%20Libre",
+      "login_required": true
+    },
+    {
+      "company": "Cornershop",
+      "careers_search": "https://www.google.com/search?q=Cornershop%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Cornershop",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Cornershop",
+      "login_required": false
+    },
+    {
+      "company": "Uber",
+      "careers_search": "https://www.google.com/search?q=Uber%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Uber",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Uber",
+      "login_required": true
+    },
+    {
+      "company": "Cabify",
+      "careers_search": "https://www.google.com/search?q=Cabify%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Cabify",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Cabify",
+      "login_required": true
+    },
+    {
+      "company": "Rappi",
+      "careers_search": "https://www.google.com/search?q=Rappi%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Rappi",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Rappi",
+      "login_required": true
+    },
+    {
+      "company": "NotCo",
+      "careers_search": "https://www.google.com/search?q=NotCo%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=NotCo",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=NotCo",
+      "login_required": false
+    },
+    {
+      "company": "Betterfly",
+      "careers_search": "https://www.google.com/search?q=Betterfly%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Betterfly",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Betterfly",
+      "login_required": false
+    },
+    {
+      "company": "Rankmi",
+      "careers_search": "https://www.google.com/search?q=Rankmi%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Rankmi",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Rankmi",
+      "login_required": false
+    },
+    {
+      "company": "Khipu",
+      "careers_search": "https://www.google.com/search?q=Khipu%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Khipu",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Khipu",
+      "login_required": false
+    },
+    {
+      "company": "Buda.com",
+      "careers_search": "https://www.google.com/search?q=Buda.com%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Buda.com",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Buda.com",
+      "login_required": false
+    },
+    {
+      "company": "Cumplo",
+      "careers_search": "https://www.google.com/search?q=Cumplo%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Cumplo",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Cumplo",
+      "login_required": false
+    },
+    {
+      "company": "Vestuá",
+      "careers_search": "https://www.google.com/search?q=Vestuá%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Vestuá",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Vestuá",
+      "login_required": false
+    },
+    {
+      "company": "Keirón",
+      "careers_search": "https://www.google.com/search?q=Keirón%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Keirón",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Keirón",
+      "login_required": false
+    },
+    {
+      "company": "Healthatom",
+      "careers_search": "https://www.google.com/search?q=Healthatom%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Healthatom",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Healthatom",
+      "login_required": false
+    },
+    {
+      "company": "Sercomed",
+      "careers_search": "https://www.google.com/search?q=Sercomed%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Sercomed",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Sercomed",
+      "login_required": false
+    },
+    {
+      "company": "Sodimac",
+      "careers_search": "https://www.google.com/search?q=Sodimac%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Sodimac",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Sodimac",
+      "login_required": false
+    },
+    {
+      "company": "Walmart Chile",
+      "careers_search": "https://www.google.com/search?q=Walmart%20Chile%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Walmart%20Chile",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Walmart%20Chile",
+      "login_required": false
+    },
+    {
+      "company": "Ripley",
+      "careers_search": "https://www.google.com/search?q=Ripley%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Ripley",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Ripley",
+      "login_required": false
+    },
+    {
+      "company": "Entel",
+      "careers_search": "https://www.google.com/search?q=Entel%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Entel",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Entel",
+      "login_required": false
+    },
+    {
+      "company": "Movistar",
+      "careers_search": "https://www.google.com/search?q=Movistar%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Movistar",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Movistar",
+      "login_required": false
+    },
+    {
+      "company": "TIVIT",
+      "careers_search": "https://www.google.com/search?q=TIVIT%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=TIVIT",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=TIVIT",
+      "login_required": false
+    },
+    {
+      "company": "Nisum",
+      "careers_search": "https://www.google.com/search?q=Nisum%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Nisum",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Nisum",
+      "login_required": false
+    },
+    {
+      "company": "Acid Labs",
+      "careers_search": "https://www.google.com/search?q=Acid%20Labs%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Acid%20Labs",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Acid%20Labs",
+      "login_required": false
+    },
+    {
+      "company": "2Brains",
+      "careers_search": "https://www.google.com/search?q=2Brains%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=2Brains",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=2Brains",
+      "login_required": false
+    },
+    {
+      "company": "Imagemaker",
+      "careers_search": "https://www.google.com/search?q=Imagemaker%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Imagemaker",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Imagemaker",
+      "login_required": false
+    },
+    {
+      "company": "Apiux",
+      "careers_search": "https://www.google.com/search?q=Apiux%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Apiux",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Apiux",
+      "login_required": false
+    },
+    {
+      "company": "Seidor",
+      "careers_search": "https://www.google.com/search?q=Seidor%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Seidor",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Seidor",
+      "login_required": false
+    },
+    {
+      "company": "WiTI",
+      "careers_search": "https://www.google.com/search?q=WiTI%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=WiTI",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=WiTI",
+      "login_required": false
+    },
+    {
+      "company": "AIRA",
+      "careers_search": "https://www.google.com/search?q=AIRA%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=AIRA",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=AIRA",
+      "login_required": false
+    },
+    {
+      "company": "Get on Board",
+      "careers_search": "https://www.google.com/search?q=Get%20on%20Board%20careers%20software%20engineer%20Chile",
+      "linkedin_search": "https://www.linkedin.com/jobs/search/?keywords=Software%20Engineer&location=Chile&keywords=Get%20on%20Board",
+      "getonboard_search": "https://www.getonbrd.com/empleos/programacion?query=Get%20on%20Board",
+      "login_required": false
+    }
+  ]
+}

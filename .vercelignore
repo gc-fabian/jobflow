@@ -1,0 +1,15 @@
+.git
+.env
+.env.*
+config.json
+data/jobs.json
+data/last_scan.json
+exports
+dashboard.log
+*.log
+CV_*.pdf
+postulaciones*/
+node_modules
+__pycache__
+.pytest_cache
+POSTULACIONES_TRACKER.md

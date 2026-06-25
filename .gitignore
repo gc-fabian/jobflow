@@ -1,0 +1,41 @@
+# Secrets / credentials
+.env
+*.env
+.env.*
+secrets.*
+*.token
+*.key
+.github-token
+
+# Personal/job data generated locally
+data/jobs.json
+data/last_scan.json
+POSTULACIONES_TRACKER.md
+exports/
+dashboard.log
+*.log
+
+# CVs and application packages
+CV_*.pdf
+postulaciones*/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node tooling for local demos
+node_modules/
+package-lock.json
+config.json
+.env.local
+.vercel/
+.vercel/output/

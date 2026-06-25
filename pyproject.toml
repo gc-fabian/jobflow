@@ -1,0 +1,9 @@
+[project]
+name = "job-application-copilot"
+version = "0.1.0"
+description = "Local human-in-the-loop job search and application prep assistant"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

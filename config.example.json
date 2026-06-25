@@ -1,0 +1,50 @@
+{
+  "candidate": {
+    "name": "[COMPLETAR NOMBRE]",
+    "email": "[COMPLETAR EMAIL]",
+    "phone": "[COMPLETAR TELÉFONO]",
+    "linkedin": "[COMPLETAR LINKEDIN]",
+    "github": "[COMPLETAR GITHUB]",
+    "portfolio": "[COMPLETAR PORTFOLIO]",
+    "base_profile": "[COMPLETAR PERFIL BASE SIN INVENTAR EXPERIENCIA]"
+  },
+  "paths": {
+    "source_cvs_dir": "[COMPLETAR RUTA LOCAL A CVS]",
+    "exports_dir": "exports"
+  },
+  "must_have_keywords": [
+    "python",
+    "node",
+    "javascript",
+    "typescript",
+    "backend",
+    "api",
+    "postgresql",
+    "sql",
+    "docker",
+    "react",
+    "fullstack",
+    "software engineer",
+    "product engineer",
+    "ia",
+    "ai"
+  ],
+  "avoid_keywords": [
+    "senior",
+    "lead",
+    "head",
+    "mobile senior",
+    "react native senior",
+    "5+ años",
+    "5 años",
+    "práctica"
+  ],
+  "preferred_roles": [
+    "software engineer",
+    "backend developer",
+    "full stack developer",
+    "product engineer",
+    "ingeniero de software",
+    "desarrollador full stack"
+  ]
+}
