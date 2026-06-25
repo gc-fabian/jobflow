@@ -31,8 +31,30 @@ const seedSources = {
   ]
 };
 
+
+const seedProfile = {
+  name: '[COMPLETAR NOMBRE]',
+  email: '[COMPLETAR EMAIL]',
+  phone: '[COMPLETAR TELÉFONO]',
+  linkedin: '[COMPLETAR LINKEDIN]',
+  github: '[COMPLETAR GITHUB]',
+  portfolio: '[COMPLETAR PORTFOLIO]',
+  headline: 'Software Engineer / Backend / Fullstack orientado a automatización e IA aplicada',
+  target_roles: ['Software Engineer', 'Backend Developer', 'Full Stack Developer', 'Product Engineer', 'AI Engineer Junior'],
+  seniority_target: 'junior / semi senior inicial / 0-3 años',
+  preferred_work_modes: ['remoto', 'híbrido', 'Santiago', 'Chile', 'LatAm remoto'],
+  locations: ['Chile', 'Santiago', 'Remoto LatAm'],
+  skills_core: ['Python', 'Node.js', 'JavaScript', 'TypeScript', 'APIs', 'PostgreSQL', 'SQL', 'Docker', 'React', 'Linux', 'Git'],
+  skills_plus: ['IA aplicada', 'automatización', 'integración de sistemas', 'IoT', 'WebSockets', 'JWT', 'MongoDB'],
+  deal_breakers: ['senior puro', 'lead/head/manager', '5+ años excluyente', 'solo mobile senior', 'práctica no remunerada'],
+  evidence_projects: ['Automatización de bombas por niveles de agua', 'Laboratorios remotos', 'Asistentes y dashboards privados con IA aplicada'],
+  application_voice: 'Profesional, honesto, breve; no exagerar seniority ni inventar certificaciones.'
+};
+
 let jobs = globalThis.__jobflowJobs || seedJobs.map(job => ({ ...job }));
 globalThis.__jobflowJobs = jobs;
+let profile = globalThis.__jobflowProfile || { ...seedProfile };
+globalThis.__jobflowProfile = profile;
 
 export function sendJson(res, data, status = 200) {
   res.statusCode = status;
@@ -56,6 +78,8 @@ export function readBody(req) {
 
 export function getJobs() { return jobs; }
 export function getSources() { return seedSources; }
+export function getProfile() { return profile; }
+export function setProfile(nextProfile) { profile = { ...profile, ...nextProfile }; globalThis.__jobflowProfile = profile; return profile; }
 export function findJob(id) { return jobs.find(job => job.id === Number(id)); }
 export function nextId() { return Math.max(0, ...jobs.map(job => job.id || 0)) + 1; }
 export function validStatus(status) { return ['new','reviewed','prepared','sent','discarded','requires_info'].includes(status); }

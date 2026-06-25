@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getJobs, getSources, findJob, nextId, validStatus } from './_store.js';
+import { getJobs, getSources, getProfile, setProfile, findJob, nextId, validStatus } from './_store.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -98,6 +98,30 @@ export default async function handler(req, res) {
     return sendJson(res, job, 201);
   }
   if (route === '/api/sources') return sendJson(res, getSources());
+  if (route === '/api/profile') {
+    if (req.method === 'POST') {
+      const body = await readBody(req);
+      const candidate = body.candidate && typeof body.candidate === 'object' ? body.candidate : body;
+      return sendJson(res, {
+        candidate: setProfile(candidate),
+        search_behavior: ['Demo Vercel: perfil editable en memoria; en local se guarda en config.json.']
+      });
+    }
+    const candidate = getProfile();
+    return sendJson(res, {
+      candidate,
+      summary: {
+        headline: candidate.headline,
+        target_roles: candidate.target_roles,
+        core_skills: candidate.skills_core,
+        plus_skills: candidate.skills_plus,
+        deal_breakers: candidate.deal_breakers,
+        work_modes: candidate.preferred_work_modes,
+        locations: candidate.locations
+      },
+      search_behavior: ['Perfil candidato usado para orientar búsqueda, scoring y texto de postulación.']
+    });
+  }
   if (route === '/api/scan') return sendJson(res, {
     scanned_at: new Date().toISOString(),
     scanned: 0,

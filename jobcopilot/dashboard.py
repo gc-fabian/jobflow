@@ -7,7 +7,7 @@ import webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse
-from .storage import ROOT, load_jobs, save_jobs, load_config
+from .storage import ROOT, load_jobs, save_jobs, load_config, save_config
 from .models import Job
 from .scoring import score_job
 from .package import create_package
@@ -28,6 +28,30 @@ def read_json(path: Path, default):
 def write_json(path: Path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def profile_strategy(config: dict) -> dict:
+    candidate = config.get("candidate", {})
+    return {
+        "candidate": candidate,
+        "summary": {
+            "headline": candidate.get("headline") or candidate.get("base_profile", ""),
+            "target_roles": candidate.get("target_roles", config.get("preferred_roles", [])),
+            "core_skills": candidate.get("skills_core", config.get("must_have_keywords", [])[:12]),
+            "plus_skills": candidate.get("skills_plus", []),
+            "deal_breakers": candidate.get("deal_breakers", config.get("avoid_keywords", [])),
+            "work_modes": candidate.get("preferred_work_modes", []),
+            "locations": candidate.get("locations", []),
+        },
+        "search_behavior": [
+            "Buscar roles objetivo y variaciones por tecnología, no solo una palabra clave genérica.",
+            "Priorizar ofertas junior/semi-senior inicial, backend/fullstack/product/software e IA aplicada.",
+            "Bajar score o marcar riesgo en roles senior/lead/head/5+ años cuando no calcen con el perfil.",
+            "Separar fuentes públicas de portales con login manual para no guardar credenciales.",
+            "Generar paquetes honestos: destacar evidencia real y dejar [COMPLETAR] donde falta información.",
+        ],
+        "missing_data_questions": candidate.get("missing_data_questions", []),
+    }
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -66,6 +90,9 @@ class Handler(BaseHTTPRequestHandler):
                 "automation": c.get("automation", {}),
             }
             self._json(safe)
+            return
+        if parsed.path == "/api/profile":
+            self._json(profile_strategy(load_config()))
             return
         if parsed.path == "/api/scan":
             self._json(load_last_scan())
@@ -106,6 +133,27 @@ class Handler(BaseHTTPRequestHandler):
             data = json.loads(body or "{}")
         except json.JSONDecodeError:
             return self._json({"error": "invalid json"}, 400)
+
+        if parsed.path == "/api/profile":
+            if not isinstance(data, dict):
+                return self._json({"error": "invalid profile"}, 400)
+            config = load_config()
+            candidate = dict(config.get("candidate", {}))
+            incoming = data.get("candidate") if isinstance(data.get("candidate"), dict) else data
+            allowed = {
+                "name", "email", "phone", "linkedin", "github", "portfolio", "headline", "base_profile",
+                "target_roles", "seniority_target", "preferred_work_modes", "locations", "availability",
+                "salary_expectation", "skills_core", "skills_plus", "skills_learning", "evidence_projects",
+                "deal_breakers", "search_queries", "application_voice", "missing_data_questions",
+            }
+            for key, value in incoming.items():
+                if key in allowed:
+                    candidate[key] = value
+            config["candidate"] = candidate
+            save_config(config)
+            jobs = [score_job(j, config) for j in load_jobs()]
+            save_jobs(jobs)
+            return self._json(profile_strategy(config))
 
         if parsed.path == "/api/jobs":
             jobs = load_jobs()

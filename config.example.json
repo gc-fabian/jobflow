@@ -6,7 +6,82 @@
     "linkedin": "[COMPLETAR LINKEDIN]",
     "github": "[COMPLETAR GITHUB]",
     "portfolio": "[COMPLETAR PORTFOLIO]",
-    "base_profile": "[COMPLETAR PERFIL BASE SIN INVENTAR EXPERIENCIA]"
+    "base_profile": "[COMPLETAR PERFIL BASE SIN INVENTAR EXPERIENCIA]",
+    "headline": "Software Engineer / Backend / Fullstack orientado a automatización e IA aplicada",
+    "target_roles": [
+      "Software Engineer",
+      "Backend Developer",
+      "Full Stack Developer",
+      "Product Engineer",
+      "AI Engineer Junior"
+    ],
+    "seniority_target": "junior / semi senior inicial / 0-3 años",
+    "preferred_work_modes": [
+      "remoto",
+      "híbrido",
+      "Santiago",
+      "Chile",
+      "LatAm remoto"
+    ],
+    "locations": [
+      "Chile",
+      "Santiago",
+      "Remoto LatAm"
+    ],
+    "availability": "[COMPLETAR DISPONIBILIDAD]",
+    "salary_expectation": "[COMPLETAR SOLO SI LA PLATAFORMA LO PIDE]",
+    "skills_core": [
+      "Python",
+      "Node.js",
+      "JavaScript",
+      "TypeScript",
+      "APIs",
+      "PostgreSQL",
+      "SQL",
+      "Docker",
+      "React",
+      "Linux",
+      "Git"
+    ],
+    "skills_plus": [
+      "IA aplicada",
+      "automatización",
+      "integración de sistemas",
+      "IoT",
+      "WebSockets",
+      "JWT",
+      "MongoDB"
+    ],
+    "skills_learning": [
+      "AWS/GCP/Azure si el rol lo requiere",
+      "arquitectura cloud",
+      "testing avanzado"
+    ],
+    "evidence_projects": [
+      "Automatización de bombas por niveles de agua con estados independientes y lógica anti-bloqueo",
+      "Laboratorios remotos con React, Node.js, WebSockets, JWT, ESP32, Docker y Nginx",
+      "Asistentes y dashboards privados con IA aplicada y flujos human-in-the-loop"
+    ],
+    "deal_breakers": [
+      "senior puro",
+      "lead/head/manager",
+      "5+ años excluyente",
+      "solo mobile senior",
+      "práctica no remunerada"
+    ],
+    "search_queries": [
+      "backend developer junior chile python node",
+      "software engineer junior chile api postgres docker",
+      "full stack developer junior react node chile",
+      "product engineer junior ai automation remote latam"
+    ],
+    "application_voice": "Profesional, honesto, breve, orientado a software/producto/automatización. No exagerar seniority ni inventar certificaciones.",
+    "missing_data_questions": [
+      "¿Cuál es la disponibilidad real de inicio?",
+      "¿Renta líquida/bruta esperada para esta postulación?",
+      "¿Debe priorizar remoto, híbrido o presencial?",
+      "¿Qué CV base usar para este rol?"
+    ]
   },
   "paths": {
     "source_cvs_dir": "[COMPLETAR RUTA LOCAL A CVS]",
@@ -27,7 +102,18 @@
     "software engineer",
     "product engineer",
     "ia",
-    "ai"
+    "ai",
+    "node.js",
+    "apis",
+    "linux",
+    "git",
+    "ia aplicada",
+    "automatización",
+    "integración de sistemas",
+    "iot",
+    "websockets",
+    "jwt",
+    "mongodb"
   ],
   "avoid_keywords": [
     "senior",
@@ -37,7 +123,12 @@
     "react native senior",
     "5+ años",
     "5 años",
-    "práctica"
+    "práctica",
+    "senior puro",
+    "lead/head/manager",
+    "5+ años excluyente",
+    "solo mobile senior",
+    "práctica no remunerada"
   ],
   "preferred_roles": [
     "software engineer",
@@ -45,6 +136,7 @@
     "full stack developer",
     "product engineer",
     "ingeniero de software",
-    "desarrollador full stack"
+    "desarrollador full stack",
+    "ai engineer junior"
   ]
 }
