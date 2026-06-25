@@ -1,5 +1,5 @@
 param(
-  [string]$ProjectName = "jobflow-fabian"
+  [string]$ProjectName = "jobflow"
 )
 
 Set-StrictMode -Version Latest

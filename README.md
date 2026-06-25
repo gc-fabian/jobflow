@@ -2,7 +2,7 @@
 
 JobFlow by Corocul es una herramienta privada para buscar, filtrar y preparar postulaciones laborales para Fabián Godoy Casas.
 
-Nombre recomendado: **JobFlow by Corocul**. Repo sugerido: `jobflow-fabian`.
+Nombre recomendado: **JobFlow by Corocul**. Repo sugerido: `jobflow`.
 
 Principios:
 - No inventa experiencia: usa perfil base configurable y deja marcadores `[COMPLETAR]`.
