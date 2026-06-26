@@ -47,6 +47,29 @@ Comando:
 
 Abre http://127.0.0.1:8765. El flujo es human-in-the-loop: la herramienta prepara borradores y paquetes, pero no envía postulaciones automáticamente.
 
+## Research profundo / oportunidades raras
+
+JobFlow incluye una primera versión de Research Engine para investigar oportunidades fuera del escaneo normal. No corre siempre: se ejecuta manualmente con presupuesto.
+
+Ejemplo:
+
+    python -m jobcopilot research "backend fullstack remoto global node typescript react" --mode quick --max-pages 30
+
+Qué hace:
+- genera queries desde el perfil del candidato;
+- revisa fuentes públicas y remotas como GetOnBoard, We Work Remotely, YC/Wellfound cuando son accesibles;
+- evita fuentes manuales/login como automatización privada;
+- guarda evidencia, páginas revisadas, señales de mercado y reporte Markdown;
+- agrega oportunidades detectadas a `data/jobs.json` para posterior scoring/CV.
+
+Salidas:
+- `exports/research_runs/<run_id>/research_report.md`
+- `research_run.json`
+- `market_signals.json`
+- `opportunities.json`
+
+Regla ética: para investigar otros postulantes/trabajadores se deben guardar señales agregadas de mercado/skills/seniority, no datos personales innecesarios.
+
 ## Plantillas CV profesionales / ATS
 
 Al crear una postulación, JobFlow ahora genera automáticamente un CV adaptado con plantilla `ats-professional-v1`:

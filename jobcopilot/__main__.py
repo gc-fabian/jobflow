@@ -95,6 +95,12 @@ def cmd_scan(args):
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
+def cmd_research(args):
+    from .research import run_research
+    result = run_research(args.objective, mode=args.mode, user_id=args.user, max_pages=args.max_pages)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
 def cmd_serve(args):
     from .dashboard import serve
     serve(host=args.host, port=args.port, open_browser=not args.no_open)
@@ -135,6 +141,13 @@ def build_parser():
     sp.add_argument("--limit-per-source", type=int, default=8)
     sp.add_argument("--include-login-required", action="store_true", help="Solo marca/actualiza fuentes con login; no pide ni guarda claves")
     sp.set_defaults(func=cmd_scan)
+
+    sp = sub.add_parser("research", help="Ejecuta investigación profunda/manual con presupuesto y fuentes públicas")
+    sp.add_argument("objective", help="Objetivo de investigación, ej: backend fullstack remoto global")
+    sp.add_argument("--mode", choices=["quick", "normal", "deep"], default="quick")
+    sp.add_argument("--user", default="fabian")
+    sp.add_argument("--max-pages", type=int, help="Sobrescribe el presupuesto máximo de páginas")
+    sp.set_defaults(func=cmd_research)
 
     sp = sub.add_parser("serve")
     sp.add_argument("--host", default="127.0.0.1")
