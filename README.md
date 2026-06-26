@@ -47,6 +47,17 @@ Comando:
 
 Abre http://127.0.0.1:8765. El flujo es human-in-the-loop: la herramienta prepara borradores y paquetes, pero no envía postulaciones automáticamente.
 
+## Plantillas CV profesionales / ATS
+
+Al crear una postulación, JobFlow ahora genera automáticamente un CV adaptado con plantilla `ats-professional-v1`:
+
+- PDF serio y enviable para subir al portal.
+- TXT plano para bots/ATS.
+- Markdown editable para revisión humana.
+- `cv_review_notes.md` con advertencias: cloud, seniority, inglés, presencialidad u otros riesgos antes de enviar.
+
+Diseño documentado en `CV_TEMPLATE_SYSTEM.md`.
+
 ## Despliegue seguro en Vercel
 
 El despliegue incluido es una versión segura/demo protegida por Basic Auth. Por seguridad, `.vercelignore` excluye `config.json`, `data/jobs.json`, `data/last_scan.json`, `exports/`, CVs, logs y tracker local.

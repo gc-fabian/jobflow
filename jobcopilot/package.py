@@ -3,6 +3,7 @@ import shutil
 from pathlib import Path
 from .models import Job
 from .templates import email_subject, application_email, form_text
+from .cv_templates import write_cv_package
 
 
 def safe_slug(text: str) -> str:
@@ -40,6 +41,10 @@ def create_package(job: Job, config: dict, root: Path) -> Path:
         shutil.copy2(cv, target)
         cv_line = target.name
 
+    generated_cv = write_cv_package(job, config, folder)
+    if generated_cv.get("pdf"):
+        cv_line = generated_cv["pdf"]
+
     (folder / "correo_postulacion.txt").write_text(
         f"Asunto: {email_subject(job)}\n\n{application_email(job, config)}", encoding="utf-8"
     )
@@ -49,6 +54,7 @@ def create_package(job: Job, config: dict, root: Path) -> Path:
 - [ ] Abrir oferta: {job.url}
 - [ ] Revisar si sigue activa.
 - [ ] Adjuntar CV: {cv_line}
+- [ ] Revisar `cv_review_notes.md` para brechas ATS/bots antes de enviar.
 - [ ] Copiar correo o texto de formulario.
 - [ ] Completar marcadores [COMPLETAR].
 - [ ] Confirmar renta si la plataforma lo pide.
@@ -79,6 +85,8 @@ Archivos:
 - correo_postulacion.txt
 - mensaje_formulario.txt
 - checklist.md
+- cv_review_notes.md
+- CV ATS en PDF/TXT/MD
 """
     (folder / "postulacion.md").write_text(summary, encoding="utf-8")
     return folder
