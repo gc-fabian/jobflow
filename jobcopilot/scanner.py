@@ -395,6 +395,12 @@ def run_scan(limit_per_source: int = 8, include_login_required: bool = False) ->
     payload = {"scanned_at": now, **result.to_dict(), "search_plan": _search_plan(sources)}
     LAST_SCAN_PATH.parent.mkdir(parents=True, exist_ok=True)
     LAST_SCAN_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    try:
+        from .sqlite_store import sync_if_exists
+        sync_if_exists()
+    except Exception:
+        # SQLite is a derived mirror during migration; scanner JSON/debug should still succeed.
+        pass
     return payload
 
 

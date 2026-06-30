@@ -35,6 +35,12 @@ def save_jobs(jobs: list[Job]) -> None:
     except Exception:
         # Tracker is a convenience view; never break data persistence because of markdown generation.
         pass
+    try:
+        from .sqlite_store import sync_if_exists
+        sync_if_exists()
+    except Exception:
+        # SQLite is a derived mirror during migration; never block the canonical JSON write.
+        pass
 
 
 def next_id(jobs: list[Job]) -> int:

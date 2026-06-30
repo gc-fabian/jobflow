@@ -134,10 +134,17 @@ def acquisition_report(jobs: list[Job], sources: dict, last_scan: dict, data_pat
     last_events = last_scan.get("events") or []
     sqlite_path = data_path.with_name("jobflow.sqlite")
     storage_note = (
-        "SQLite local existe como espejo normalizado; JSON sigue siendo la fuente operativa actual."
+        "SQLite local existe como espejo normalizado auto-sincronizado; JSON sigue siendo la fuente operativa actual."
         if sqlite_path.exists()
         else "Las ofertas reales se guardan localmente en data/jobs.json; no hay DB todavía."
     )
+    sqlite_report_data = None
+    if sqlite_path.exists():
+        try:
+            from .sqlite_store import sqlite_report
+            sqlite_report_data = sqlite_report(db_path=sqlite_path)
+        except Exception as exc:
+            sqlite_report_data = {"error": str(exc)}
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "storage": {
@@ -169,8 +176,9 @@ def acquisition_report(jobs: list[Job], sources: dict, last_scan: dict, data_pat
         "sources": source_rows,
         "normalization": {
             "schema": NORMALIZED_JOB_SCHEMA,
-            "current_state": "parcialmente normalizado: Job tiene campos estándar, pero falta tabla/índice para fuentes, eventos e historial.",
-            "recommended_next": "migrar a SQLite local con tablas jobs, sources, scans, scan_events y raw_observations.",
+            "current_state": "SQLite espejo normalizado auto-sincronizado" if sqlite_path.exists() else "parcialmente normalizado: Job tiene campos estándar, pero falta tabla/índice para fuentes, eventos e historial.",
+            "recommended_next": "hacer que SQLite sea la fuente operativa principal del scanner/dashboard" if sqlite_path.exists() else "migrar a SQLite local con tablas jobs, sources, scans, scan_events y raw_observations.",
+            "sqlite_report": sqlite_report_data,
         },
         "quality": {
             "duplicate_canonical_urls": len(duplicate_urls),

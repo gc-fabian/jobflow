@@ -486,5 +486,12 @@ def sqlite_report(conn: sqlite3.Connection | None = None, db_path: Path = DB_PAT
             conn.close()
 
 
+def sync_if_exists(db_path: Path = DB_PATH) -> dict[str, Any] | None:
+    """Refresh the SQLite mirror only when it has already been initialized."""
+    if not db_path.exists():
+        return None
+    return migrate_from_json(db_path, reset=True)
+
+
 def print_report(report: dict[str, Any]) -> None:
     print(json.dumps(report, ensure_ascii=False, indent=2))
