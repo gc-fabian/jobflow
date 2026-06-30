@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getJobs, getSources, getProfile, setProfile, findJob, nextId, validStatus } from './_store.js';
+import { acquisitionPayload } from './acquisition.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -158,6 +159,7 @@ export default async function handler(req, res) {
     channel_counts: getJobs().reduce((acc, job) => ({ ...acc, [job.channel]: (acc[job.channel] || 0) + 1 }), {}),
     top_jobs: getJobs().slice(0, 10)
   });
+  if (route === '/api/acquisition') return sendJson(res, acquisitionPayload());
   if (route === '/api/score') return sendJson(res, { ok: true, count: getJobs().length });
   if (route === '/api/status' && req.method === 'POST') {
     const body = await readBody(req);

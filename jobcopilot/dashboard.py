@@ -7,11 +7,12 @@ import webbrowser
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse
-from .storage import ROOT, load_jobs, save_jobs, load_config, save_config
+from .storage import ROOT, DATA_PATH, load_jobs, save_jobs, load_config, save_config
 from .models import Job
 from .scoring import score_job
 from .package import create_package
 from .scanner import SOURCES_PATH, load_last_scan, run_scan, _search_plan
+from .acquisition import acquisition_report
 
 DATA = ROOT / "data"
 WEB = ROOT / "web"
@@ -115,6 +116,10 @@ class Handler(BaseHTTPRequestHandler):
                 "channel_counts": channel_counts,
                 "top_jobs": [j.to_dict() for j in sorted(jobs, key=lambda x: (x.status == "discarded", -x.score))[:10]],
             })
+            return
+        if parsed.path == "/api/acquisition":
+            sources = read_json(SOURCES, {"searches": [], "target_companies": [], "company_links": []})
+            self._json(acquisition_report(load_jobs(), sources, load_last_scan(), DATA_PATH))
             return
         if parsed.path.startswith("/exports/"):
             path = ROOT / parsed.path.lstrip("/")

@@ -89,6 +89,28 @@ def cmd_package(args):
 
 
 
+
+def cmd_db_init(args):
+    from .sqlite_store import DB_PATH, connect, init_db, sqlite_report, print_report
+    with connect(DB_PATH) as conn:
+        init_db(conn)
+        report = sqlite_report(conn, DB_PATH)
+    print_report(report)
+
+
+def cmd_db_migrate(args):
+    from .sqlite_store import DB_PATH, migrate_from_json, print_report
+    report = migrate_from_json(DB_PATH, reset=args.reset)
+    print_report(report)
+
+
+def cmd_db_report(args):
+    from .sqlite_store import DB_PATH, print_report, sqlite_report
+    if not DB_PATH.exists():
+        raise SystemExit(f"No existe DB todavía: {DB_PATH}. Ejecuta: python -m jobcopilot db-migrate")
+    print_report(sqlite_report(db_path=DB_PATH))
+
+
 def cmd_scan(args):
     from .scanner import run_scan
     result = run_scan(limit_per_source=args.limit_per_source, include_login_required=args.include_login_required)
@@ -136,6 +158,16 @@ def build_parser():
     sp = sub.add_parser("package")
     sp.add_argument("id", type=int)
     sp.set_defaults(func=cmd_package)
+
+    sp = sub.add_parser("db-init", help="Crea la DB SQLite local normalizada sin importar datos")
+    sp.set_defaults(func=cmd_db_init)
+
+    sp = sub.add_parser("db-migrate", help="Importa JSON local a SQLite normalizado")
+    sp.add_argument("--reset", action="store_true", help="Recrear data/jobflow.sqlite antes de importar")
+    sp.set_defaults(func=cmd_db_migrate)
+
+    sp = sub.add_parser("db-report", help="Muestra conteos/calidad de la DB SQLite")
+    sp.set_defaults(func=cmd_db_report)
 
     sp = sub.add_parser("scan")
     sp.add_argument("--limit-per-source", type=int, default=8)
