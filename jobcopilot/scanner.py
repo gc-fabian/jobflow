@@ -264,6 +264,7 @@ def run_scan(limit_per_source: int = 8, include_login_required: bool = False) ->
     companies = sources.get("target_companies", [])
     jobs = load_jobs()
     by_url = _existing_by_url(jobs)
+    updated_job_ids: set[int] = set()
     now = datetime.now(timezone.utc).isoformat()
     result = ScanResult(errors=[], events=[])
 
@@ -313,11 +314,16 @@ def run_scan(limit_per_source: int = 8, include_login_required: bool = False) ->
             key = _normalize_url(url)
             reason = "JSON-LD JobPosting detectado" if posting else "fuente no-listado con keywords/empresa relevante"
             if key in by_url:
-                by_url[key].last_seen_at = now
-                by_url[key].updated_at = now
-                by_url[key] = score_job(by_url[key], config)
-                result.updated += 1
-                _event(result, "update", "job", "Oferta directa existente actualizada", source=name, url=url, reason=reason, job_id=by_url[key].id)
+                existing = by_url[key]
+                if existing.id not in updated_job_ids:
+                    existing.last_seen_at = now
+                    existing.updated_at = now
+                    by_url[key] = score_job(existing, config)
+                    updated_job_ids.add(existing.id)
+                    result.updated += 1
+                    _event(result, "update", "job", "Oferta directa existente actualizada", source=name, url=url, reason=reason, job_id=existing.id)
+                else:
+                    _event(result, "seen", "job", "Oferta directa ya contabilizada en este scan", source=name, url=url, reason=reason, job_id=existing.id)
             else:
                 job = _job_from_page(next_id(jobs), url, name, title, html, text, companies, now)
                 scored = score_job(job, config)
@@ -362,13 +368,18 @@ def run_scan(limit_per_source: int = 8, include_login_required: bool = False) ->
                 _event(result, "skip", "candidate", "Link parece oferta, pero el texto del link no calza con keywords/empresas objetivo.", source=name, url=link, label=label[:180])
                 continue
             if key in by_url:
-                by_url[key].last_seen_at = now
-                by_url[key].updated_at = now
-                if by_url[key].company in {"Get on Board", "Trabajando", "[COMPLETAR EMPRESA]"}:
-                    by_url[key].company = _guess_company(name, label, companies)
-                by_url[key] = score_job(by_url[key], config)
-                result.updated += 1
-                _event(result, "update", "candidate", "Oferta existente vista de nuevo y actualizada", source=name, url=link, label=label[:180], job_id=by_url[key].id, score=by_url[key].score)
+                existing = by_url[key]
+                if existing.id not in updated_job_ids:
+                    existing.last_seen_at = now
+                    existing.updated_at = now
+                    if existing.company in {"Get on Board", "Trabajando", "[COMPLETAR EMPRESA]"}:
+                        existing.company = _guess_company(name, label, companies)
+                    by_url[key] = score_job(existing, config)
+                    updated_job_ids.add(existing.id)
+                    result.updated += 1
+                    _event(result, "update", "candidate", "Oferta existente vista de nuevo y actualizada", source=name, url=link, label=label[:180], job_id=existing.id, score=by_url[key].score)
+                else:
+                    _event(result, "seen", "candidate", "Oferta existente ya contabilizada en este scan", source=name, url=link, label=label[:180], job_id=existing.id, score=existing.score)
                 continue
             _event(result, "start", "detail", "Link candidato relevante; descargando detalle", source=name, url=link, label=label[:180])
             detail_title, detail_html, detail_text = _fetch_html(link, timeout=12)
