@@ -13,6 +13,7 @@ from .scoring import score_job
 from .package import create_package
 from .scanner import SOURCES_PATH, load_last_scan, run_scan, _search_plan
 from .acquisition import acquisition_report
+from .career_paths import build_career_paths
 
 DATA = ROOT / "data"
 WEB = ROOT / "web"
@@ -92,6 +93,9 @@ class Handler(BaseHTTPRequestHandler):
             }
             self._json(safe)
             return
+        if parsed.path in {"/api/status", "/api/health"}:
+            self._json({"ok": True, "app": "JobFlow", "jobs": len(load_jobs())})
+            return
         if parsed.path == "/api/profile":
             self._json(profile_strategy(load_config()))
             return
@@ -120,6 +124,9 @@ class Handler(BaseHTTPRequestHandler):
         if parsed.path == "/api/acquisition":
             sources = read_json(SOURCES, {"searches": [], "target_companies": [], "company_links": []})
             self._json(acquisition_report(load_jobs(), sources, load_last_scan(), DATA_PATH))
+            return
+        if parsed.path == "/api/career-paths":
+            self._json(build_career_paths(load_config(), load_jobs()))
             return
         if parsed.path.startswith("/exports/"):
             path = ROOT / parsed.path.lstrip("/")

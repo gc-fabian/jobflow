@@ -2,6 +2,7 @@ from __future__ import annotations
 from html.parser import HTMLParser
 from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
+from .text_cleaning import clean_job_description
 
 class TextExtractor(HTMLParser):
     def __init__(self):
@@ -9,16 +10,25 @@ class TextExtractor(HTMLParser):
         self.title = ""
         self._in_title = False
         self.parts: list[str] = []
+        self._skip_depth = 0
 
     def handle_starttag(self, tag, attrs):
-        if tag.lower() == "title":
+        lower = tag.lower()
+        if lower == "title":
             self._in_title = True
+        if lower in {"script", "style", "noscript", "template", "svg"}:
+            self._skip_depth += 1
 
     def handle_endtag(self, tag):
-        if tag.lower() == "title":
+        lower = tag.lower()
+        if lower == "title":
             self._in_title = False
+        if lower in {"script", "style", "noscript", "template", "svg"} and self._skip_depth:
+            self._skip_depth -= 1
 
     def handle_data(self, data):
+        if self._skip_depth:
+            return
         text = " ".join(data.split())
         if not text:
             return

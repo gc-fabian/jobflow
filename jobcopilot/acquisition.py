@@ -6,6 +6,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from .models import Job
+from .maintenance import is_listing_like_job
 
 
 NORMALIZED_JOB_SCHEMA = {
@@ -89,12 +90,8 @@ def acquisition_report(jobs: list[Job], sources: dict, last_scan: dict, data_pat
     by_source_type = Counter(item["source_type"] for item in normalized)
     by_status = Counter(item["status"] for item in normalized)
     duplicate_urls = [url for url, count in Counter(item["canonical_url"] for item in normalized if item["canonical_url"]).items() if count > 1]
-    listing_like = [
-        item for item in normalized
-        if item["company"] in {"Get on Board", "Trabajando"}
-        or "jobs | get on board" in item["role"].lower()
-        or "portal de empleo" in item["role"].lower()
-    ]
+    listing_ids = {job.id for job in jobs if is_listing_like_job(job)}
+    listing_like = [item for item in normalized if item["id"] in listing_ids]
     missing_detail = [item for item in normalized if item["description_chars"] < 280]
     source_rows = []
     source_jobs: dict[str, list[dict]] = defaultdict(list)

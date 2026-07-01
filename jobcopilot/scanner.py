@@ -14,6 +14,7 @@ from .fetch import TextExtractor, fetch_url_text
 from .models import Job, infer_channel
 from .scoring import score_job
 from .storage import ROOT, load_config, load_jobs, next_id, save_jobs
+from .text_cleaning import clean_job_description
 
 SOURCES_PATH = ROOT / "data" / "sources.json"
 LAST_SCAN_PATH = ROOT / "data" / "last_scan.json"
@@ -129,7 +130,7 @@ def _fetch_html(url: str, timeout: int = 20) -> tuple[str, str, str]:
     html = raw.decode(encoding, errors="replace")
     parser = TextExtractor()
     parser.feed(html)
-    text = chr(10).join(parser.parts)
+    text = clean_job_description(chr(10).join(parser.parts))
     return parser.title.strip(), html, text[:12000]
 
 
@@ -179,7 +180,27 @@ def _guess_company(source_name: str, role_text: str, companies: list[str]) -> st
 
 def _is_listing_page(url: str, source_name: str = "") -> bool:
     text = f"{url} {source_name}".lower()
-    if "getonbrd.com/empleos/programacion" in text and text.rstrip("/").endswith("/empleos/programacion"):
+    parsed = urlparse(url)
+    path = parsed.path.rstrip("/").lower()
+    exact_listing_paths = {
+        "/jobs/programming",
+        "/jobs/programacion",
+        "/jobs/digital-marketing",
+        "/jobs/design-ux",
+        "/jobs/cybersecurity",
+        "/jobs/data-science-analytics",
+        "/jobs/machine-learning-ai",
+        "/jobs/sysadmin-devops-qa",
+    }
+    prefix_listing_paths = (
+        "/jobs/tag/",
+        "/jobs/city/",
+        "/jobs/country/",
+        "/jobs/remote/",
+    )
+    if "getonbrd.com/empleos/programacion" in text and path.endswith("/empleos/programacion"):
+        return True
+    if "getonbrd.com" in parsed.netloc.lower() and (path in exact_listing_paths or any(path.startswith(p) for p in prefix_listing_paths)):
         return True
     return any(hint in text for hint in LISTING_URL_HINTS) and "postula/" not in text
 
@@ -232,8 +253,7 @@ def _job_from_page(job_id: int, url: str, source_name: str, title: str, html: st
             company = org.get("name") or company
         desc = posting.get("description")
         if desc:
-            description = re.sub("<[^>]+>", " ", desc)
-            description = " ".join(unescape(description).split())[:12000]
+            description = clean_job_description(desc)[:12000]
     title_company = _company_from_role_title(role)
     if title_company:
         company = title_company

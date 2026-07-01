@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, asdict, field
 from datetime import datetime, timezone
 from typing import Any
+from .text_cleaning import clean_job_description
 
 
 @dataclass
@@ -32,6 +33,7 @@ class Job:
         data.setdefault("risks", [])
         data.setdefault("channel", infer_channel(data.get("url", ""), data.get("source", "")))
         data.setdefault("last_seen_at", "")
+        data["description"] = clean_job_description(data.get("description", ""))
         if data.get("status") == "found":
             data["status"] = "new"
         return cls(**data)

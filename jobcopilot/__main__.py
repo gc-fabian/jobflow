@@ -90,6 +90,21 @@ def cmd_package(args):
 
 
 
+
+def cmd_clean_listings(args):
+    from .maintenance import remove_listing_like_jobs
+    jobs = load_jobs()
+    kept, removed = remove_listing_like_jobs(jobs)
+    if args.apply:
+        save_jobs(kept)
+    print(json.dumps({
+        "apply": bool(args.apply),
+        "removed": len(removed),
+        "kept": len(kept),
+        "sample_removed": [job.to_dict() for job in removed[:20]],
+    }, ensure_ascii=False, indent=2))
+
+
 def cmd_db_init(args):
     from .sqlite_store import DB_PATH, connect, init_db, sqlite_report, print_report
     with connect(DB_PATH) as conn:
@@ -158,6 +173,10 @@ def build_parser():
     sp = sub.add_parser("package")
     sp.add_argument("id", type=int)
     sp.set_defaults(func=cmd_package)
+
+    sp = sub.add_parser("clean-listings", help="Elimina ofertas que en realidad son páginas listado/categoría")
+    sp.add_argument("--apply", action="store_true", help="Aplicar limpieza; sin esto solo muestra muestra")
+    sp.set_defaults(func=cmd_clean_listings)
 
     sp = sub.add_parser("db-init", help="Crea la DB SQLite local normalizada sin importar datos")
     sp.set_defaults(func=cmd_db_init)

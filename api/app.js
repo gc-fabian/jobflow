@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getJobs, getSources, getProfile, setProfile, findJob, nextId, validStatus } from './_store.js';
 import { acquisitionPayload } from './acquisition.js';
+import { careerPathsPayload } from './career-paths.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -160,6 +161,7 @@ export default async function handler(req, res) {
     top_jobs: getJobs().slice(0, 10)
   });
   if (route === '/api/acquisition') return sendJson(res, acquisitionPayload());
+  if (route === '/api/career-paths') return sendJson(res, careerPathsPayload());
   if (route === '/api/score') return sendJson(res, { ok: true, count: getJobs().length });
   if (route === '/api/status' && req.method === 'POST') {
     const body = await readBody(req);
